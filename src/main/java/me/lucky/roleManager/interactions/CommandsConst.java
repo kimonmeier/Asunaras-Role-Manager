@@ -24,6 +24,12 @@ public final class CommandsConst {
             public static final String SHOW_GROUP_NAME = "show";
         }
 
+        public static class Ban {
+            public static final String BAN_SUBCOMMAND = "ban";
+
+            public static final String BAN_REASON = "reason";
+        }
+
     }
 
 }

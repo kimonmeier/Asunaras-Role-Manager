@@ -4,8 +4,10 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import jakarta.persistence.Transient;
+import me.lucky.roleManager.data.dao.BanDAO;
 import me.lucky.roleManager.data.dao.PlayerDAO;
 import me.lucky.roleManager.data.dao.WhitelistDAO;
+import me.lucky.roleManager.data.entities.Ban;
 import me.lucky.roleManager.data.entities.Player;
 import me.lucky.roleManager.data.entities.Whitelist;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -40,6 +42,7 @@ public class DbModule extends AbstractModule {
 
             configuration.addAnnotatedClass(Player.class);
             configuration.addAnnotatedClass(Whitelist.class);
+            configuration.addAnnotatedClass(Ban.class);
 
             return configuration.buildSessionFactory();
         } catch (Throwable ex) {
@@ -59,4 +62,11 @@ public class DbModule extends AbstractModule {
     public WhitelistDAO provideWhitelistDAO(SessionFactory sessionFactory) {
         return new WhitelistDAO(sessionFactory);
     }
+
+    @Provides
+    @Transient
+    public BanDAO provideBanDAO(SessionFactory sessionFactory) {
+        return new BanDAO(sessionFactory);
+    }
+
 }

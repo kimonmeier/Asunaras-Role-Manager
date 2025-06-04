@@ -3,6 +3,7 @@ package me.lucky.roleManager.interactions;
 import an.awesome.pipelinr.Pipeline;
 import com.google.inject.Inject;
 import me.lucky.roleManager.events.discord.AddWhitelist.AddWhitelistCommand;
+import me.lucky.roleManager.events.discord.BanFromWhitelist.BanFromWhitelistCommand;
 import me.lucky.roleManager.events.discord.RemoveWhitelistDiscord.RemoveWhitelistDiscordCommand;
 import me.lucky.roleManager.events.discord.RemoveWhitelistMinecraft.RemoveWhitelistMinecraftCommand;
 import me.lucky.roleManager.events.discord.ShowDiscord.ShowDiscordCommand;
@@ -45,12 +46,18 @@ public class WhitelistCommandInteraction extends ListenerAdapter {
         switch (event.getSubcommandName()) {
             case CommandsConst.Whitelist.Add.ADD_SUBCOMMAND ->
                     this.handleAdd(event);
+            case CommandsConst.Whitelist.Ban.BAN_SUBCOMMAND ->
+                    this.handleBan(event);
             default -> throw new IllegalStateException("Unexpected value: " + event.getSubcommandName());
         }
     }
 
     private void handleAdd(SlashCommandInteractionEvent event) {
         pipeline.send(new AddWhitelistCommand(event.getHook(), event.getOption(CommandsConst.PARAMETER_DISCORD_USER).getAsUser().getIdLong(), event.getOption(CommandsConst.PARAMETER_MINECRAFT_NAME).getAsString()));
+    }
+
+    private void handleBan(SlashCommandInteractionEvent event) {
+        pipeline.send(new BanFromWhitelistCommand(event.getHook(), event.getOption(CommandsConst.PARAMETER_DISCORD_USER).getAsUser().getIdLong(), event.getOption(CommandsConst.Whitelist.Ban.BAN_REASON).getAsString()));
     }
 
     private void handleShowGroup(SlashCommandInteractionEvent event) {

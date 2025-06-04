@@ -110,6 +110,10 @@ public class DiscordBot extends ListenerAdapter {
                 .addOption(OptionType.USER, CommandsConst.PARAMETER_DISCORD_USER, "Discord-User", true)
                 .addOption(OptionType.STRING, CommandsConst.PARAMETER_MINECRAFT_NAME, "Minecraft-Name", true);
 
+        var banFromWhitelist = new SubcommandData(CommandsConst.Whitelist.Ban.BAN_SUBCOMMAND, "Bannt einen Spieler von der Whitelist")
+                .addOption(OptionType.USER, CommandsConst.PARAMETER_DISCORD_USER, "Discord-User", true)
+                .addOption(OptionType.STRING, CommandsConst.Whitelist.Ban.BAN_REASON, "Grund warum der Spieler gebannt wird!", true);
+
         var showWhitelistGroup = this.buildWhitelistShowGroup();
         var removeFromWhitelistGroup = this.buildWhitelistRemoveGroup();
 
@@ -117,7 +121,8 @@ public class DiscordBot extends ListenerAdapter {
                 .slash("whitelist", "Verwaltet die Whitelist vom Minecraft Server")
                 .addSubcommandGroups(showWhitelistGroup)
                 .addSubcommandGroups(removeFromWhitelistGroup)
-                .addSubcommands(addToWhitelist);
+                .addSubcommands(addToWhitelist)
+                .addSubcommands(banFromWhitelist);
 
     }
 

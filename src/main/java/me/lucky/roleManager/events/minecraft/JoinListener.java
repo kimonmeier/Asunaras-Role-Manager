@@ -2,6 +2,7 @@ package me.lucky.roleManager.events.minecraft;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import me.lucky.roleManager.data.dao.BanDAO;
 import me.lucky.roleManager.data.dao.PlayerDAO;
 import me.lucky.roleManager.data.dao.WhitelistDAO;
 import me.lucky.roleManager.data.entities.Player;

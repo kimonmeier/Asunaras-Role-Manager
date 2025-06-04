@@ -30,8 +30,6 @@ public class VerifyCommandInteraction extends ListenerAdapter {
 
 
         var minecraftName = event.getInteraction().getOption(CommandsConst.PARAMETER_MINECRAFT_NAME).getAsString();
-        var returnMessage = pipeline.send(new VerifyUserCommand(minecraftName, event.getUser().getIdLong()));
-
-        event.getHook().sendMessage(returnMessage).queue();
+        pipeline.send(new VerifyUserCommand(event.getHook(), minecraftName, event.getUser().getIdLong()));
     }
 }
