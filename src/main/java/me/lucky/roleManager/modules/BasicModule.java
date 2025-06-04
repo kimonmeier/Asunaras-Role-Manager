@@ -15,6 +15,7 @@ import me.lucky.roleManager.events.discord.ShowDiscord.ShowDiscordCommandHandler
 import me.lucky.roleManager.events.discord.ShowMinecraft.ShowMinecraftCommandHandler;
 import me.lucky.roleManager.events.discord.VerifyUser.VerifyUserCommandHandler;
 import me.lucky.roleManager.events.minecraft.JoinListener;
+import me.lucky.roleManager.interactions.GuildMemberLeave;
 import me.lucky.roleManager.interactions.VerifyCommandInteraction;
 import me.lucky.roleManager.interactions.WhitelistCommandInteraction;
 import net.dv8tion.jda.api.JDA;
@@ -43,6 +44,7 @@ public class BasicModule extends AbstractModule {
         // Discord
         bind(VerifyCommandInteraction.class);
         bind(WhitelistCommandInteraction.class);
+        bind(GuildMemberLeave.class);
 
 
         bind(Server.class).toInstance(this.plugin.getServer());

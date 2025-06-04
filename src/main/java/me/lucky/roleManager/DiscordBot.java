@@ -7,6 +7,7 @@ import com.google.inject.Singleton;
 import lombok.Getter;
 import me.lucky.roleManager.config.PluginConfiguration;
 import me.lucky.roleManager.interactions.CommandsConst;
+import me.lucky.roleManager.interactions.GuildMemberLeave;
 import me.lucky.roleManager.interactions.VerifyCommandInteraction;
 import me.lucky.roleManager.interactions.WhitelistCommandInteraction;
 import net.dv8tion.jda.api.JDA;
@@ -73,6 +74,7 @@ public class DiscordBot extends ListenerAdapter {
         // Listener
         this.jda.addEventListener(injector.getInstance(VerifyCommandInteraction.class));
         this.jda.addEventListener(injector.getInstance(WhitelistCommandInteraction.class));
+        this.jda.addEventListener(injector.getInstance(GuildMemberLeave.class));
 
 
         this.jda.updateCommands()

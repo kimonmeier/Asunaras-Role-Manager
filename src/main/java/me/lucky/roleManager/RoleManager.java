@@ -2,6 +2,7 @@ package me.lucky.roleManager;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import me.lucky.roleManager.events.minecraft.JoinListener;
 import me.lucky.roleManager.modules.BasicModule;
@@ -16,7 +17,14 @@ import java.util.logging.Level;
 public final class RoleManager extends JavaPlugin {
     public static final BigInteger GUILD_ID = new BigInteger("679367558809255938");
 
+    @Getter
+    private static RoleManager instance;
+
     private DiscordBot bot;
+
+    public RoleManager() {
+        instance = this;
+    }
 
     @SneakyThrows
     @Override
