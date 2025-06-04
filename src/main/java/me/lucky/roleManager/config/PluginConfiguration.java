@@ -3,6 +3,9 @@ package me.lucky.roleManager.config;
 import de.exlll.configlib.Comment;
 import de.exlll.configlib.Configuration;
 
+import java.util.Dictionary;
+import java.util.HashMap;
+
 @Configuration
 public final class PluginConfiguration {
 
@@ -18,5 +21,19 @@ public final class PluginConfiguration {
         public long MinecraftRoleId = -1L;
     }
 
+    @Configuration
+    public static class MinecraftConfiguration {
+        @Comment("Die Rollen für die Minecraft")
+        public HashMap<Long, String> Rollen = new HashMap<>();
+
+        public MinecraftConfiguration() {
+            Rollen = new HashMap<>();
+            Rollen.put(1L, "A");
+            Rollen.put(2L, "B");
+        }
+    }
+
     public DiscordConfiguration Discord = new DiscordConfiguration();
+
+    public MinecraftConfiguration Minecraft = new MinecraftConfiguration();
 }

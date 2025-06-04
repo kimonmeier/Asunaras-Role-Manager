@@ -9,8 +9,15 @@ import me.lucky.roleManager.config.PluginConfiguration;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.model.user.User;
+import org.bukkit.Bukkit;
 
 import java.math.BigInteger;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class PlayerWhitelistedEventHandler implements Command.Handler<PlayerWhitelistedEvent, Voidy> {
 

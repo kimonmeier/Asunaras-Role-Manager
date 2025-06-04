@@ -36,7 +36,7 @@ public class AddWhitelistCommandHandler implements Command.Handler<AddWhitelistC
             return null;
         }
 
-        pipeline.send(new PlayerWhitelistedEvent(command.discordId()));
+        pipeline.send(new PlayerWhitelistedEvent(command.discordId(), player.getMinecraftId()));
 
         var whitelistToCreate = new Whitelist();
         whitelistToCreate.setDiscordId(command.discordId());

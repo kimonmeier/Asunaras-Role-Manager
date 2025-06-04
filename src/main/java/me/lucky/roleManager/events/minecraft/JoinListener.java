@@ -2,15 +2,30 @@ package me.lucky.roleManager.events.minecraft;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import me.lucky.roleManager.DiscordBot;
+import me.lucky.roleManager.RoleManager;
+import me.lucky.roleManager.config.PluginConfiguration;
 import me.lucky.roleManager.data.dao.BanDAO;
 import me.lucky.roleManager.data.dao.PlayerDAO;
 import me.lucky.roleManager.data.dao.WhitelistDAO;
 import me.lucky.roleManager.data.entities.Player;
+import me.lucky.roleManager.data.entities.Whitelist;
+import net.dv8tion.jda.api.entities.Member;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.model.data.DataMutateResult;
+import net.luckperms.api.model.user.User;
+import net.luckperms.api.node.Node;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
+
+import javax.management.relation.Role;
+import java.util.Objects;
+import java.util.UUID;
+import java.util.stream.Stream;
 
 public class JoinListener implements Listener {
 
@@ -19,6 +34,12 @@ public class JoinListener implements Listener {
 
     @Inject
     private WhitelistDAO whitelistDAO;
+
+    @Inject
+    private DiscordBot discordBot;
+
+    @Inject
+    private PluginConfiguration pluginConfiguration;
 
     @EventHandler
     public void onPlayerLogin(PlayerLoginEvent event) {
@@ -48,6 +69,8 @@ public class JoinListener implements Listener {
             return;
         }
 
+        syncPrimaryGroup(event.getPlayer().getUniqueId(), whitelist);
+
         event.setResult(PlayerLoginEvent.Result.ALLOWED);
     }
 
@@ -65,5 +88,27 @@ public class JoinListener implements Listener {
                 .append(Component.newline())
                 .append(Component.text("eingibst"));
 
+    }
+
+    private void syncPrimaryGroup(UUID playerId, Whitelist whitelist) {
+        Member member = discordBot.getJda().getGuildById(RoleManager.GUILD_ID.longValue()).getMemberById(whitelist.getDiscordId());
+
+
+        String primaryGroup = member.getRoles().stream().map(currentRole -> pluginConfiguration.Minecraft.Rollen.getOrDefault(currentRole.getIdLong(), null)).filter(Objects::nonNull).findFirst().orElse(null);
+
+        User luckPermsUser = LuckPermsProvider.get().getUserManager().getUser(playerId);
+
+        if (luckPermsUser == null) {
+            throw new RuntimeException("Could not find LuckPerms user for player " + playerId);
+        }
+
+        var nodes = luckPermsUser.getNodes().stream().filter(x -> x.getKey().startsWith("group.")).toList();
+        for(var node : nodes) {
+            luckPermsUser.data().remove(node);
+        }
+
+        luckPermsUser.data().add(Node.builder("group." + primaryGroup).build());
+
+        LuckPermsProvider.get().getUserManager().saveUser(luckPermsUser).join();
     }
 }
