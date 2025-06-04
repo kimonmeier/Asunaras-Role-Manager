@@ -1,12 +1,14 @@
 package me.lucky.roleManager.events.discord.VerifyUser;
 
 import an.awesome.pipelinr.Command;
+import an.awesome.pipelinr.Pipeline;
 import an.awesome.pipelinr.Voidy;
 import com.google.inject.Inject;
 import me.lucky.roleManager.data.dao.BanDAO;
 import me.lucky.roleManager.data.dao.PlayerDAO;
 import me.lucky.roleManager.data.dao.WhitelistDAO;
 import me.lucky.roleManager.data.entities.Whitelist;
+import me.lucky.roleManager.events.discord.PlayerWhitelisted.PlayerWhitelistedEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 
 import java.awt.*;
@@ -21,6 +23,9 @@ public class VerifyUserCommandHandler implements Command.Handler<VerifyUserComma
 
     @Inject
     private BanDAO banDAO;
+
+    @Inject
+    private Pipeline pipeline;
 
     @Override
     public Voidy handle(VerifyUserCommand command) {
@@ -53,6 +58,8 @@ public class VerifyUserCommandHandler implements Command.Handler<VerifyUserComma
             command.hook().sendMessageEmbeds(embedBuilder.build()).queue();
             return null;
         }
+
+        pipeline.send(new PlayerWhitelistedEvent(command.discordId()));
 
         Whitelist whitelistToCreate = new Whitelist();
         whitelistToCreate.setDiscordId(command.discordId());

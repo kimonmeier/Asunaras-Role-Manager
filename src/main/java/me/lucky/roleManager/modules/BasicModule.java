@@ -10,6 +10,8 @@ import me.lucky.roleManager.DiscordBot;
 import me.lucky.roleManager.config.PluginConfiguration;
 import me.lucky.roleManager.events.discord.AddWhitelist.AddWhitelistCommandHandler;
 import me.lucky.roleManager.events.discord.BanFromWhitelist.BanFromWhitelistCommandHandler;
+import me.lucky.roleManager.events.discord.PlayerUnwhitelisted.PlayerUnwhitelistedEventHandler;
+import me.lucky.roleManager.events.discord.PlayerWhitelisted.PlayerWhitelistedEventHandler;
 import me.lucky.roleManager.events.discord.RemoveWhitelistDiscord.RemoveWhitelistDiscordCommandHandler;
 import me.lucky.roleManager.events.discord.RemoveWhitelistMinecraft.RemoveWhitelistMinecraftCommandHandler;
 import me.lucky.roleManager.events.discord.ShowDiscord.ShowDiscordCommandHandler;
@@ -62,7 +64,9 @@ public class BasicModule extends AbstractModule {
                         injector.getInstance(RemoveWhitelistMinecraftCommandHandler.class),
                         injector.getInstance(ShowDiscordCommandHandler.class),
                         injector.getInstance(ShowMinecraftCommandHandler.class),
-                        injector.getInstance(BanFromWhitelistCommandHandler.class)
+                        injector.getInstance(BanFromWhitelistCommandHandler.class),
+                        injector.getInstance(PlayerWhitelistedEventHandler.class),
+                        injector.getInstance(PlayerUnwhitelistedEventHandler.class)
                 ));
     }
 

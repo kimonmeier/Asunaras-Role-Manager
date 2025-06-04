@@ -1,12 +1,15 @@
 package me.lucky.roleManager.events.discord.BanFromWhitelist;
 
 import an.awesome.pipelinr.Command;
+import an.awesome.pipelinr.Pipeline;
+import an.awesome.pipelinr.Pipelinr;
 import an.awesome.pipelinr.Voidy;
 import com.google.inject.Inject;
 import me.lucky.roleManager.RoleManager;
 import me.lucky.roleManager.data.dao.BanDAO;
 import me.lucky.roleManager.data.dao.WhitelistDAO;
 import me.lucky.roleManager.data.entities.Ban;
+import me.lucky.roleManager.events.discord.PlayerUnwhitelisted.PlayerUnwhitelistedEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -26,6 +29,9 @@ public class BanFromWhitelistCommandHandler implements Command.Handler<BanFromWh
     @Inject
     private Server server;
 
+    @Inject
+    private Pipeline pipeline;
+
     @Override
     public Voidy handle(BanFromWhitelistCommand command) {
         var whitelist = whitelistDAO.findByDiscordId(command.discordId());
@@ -43,6 +49,7 @@ public class BanFromWhitelistCommandHandler implements Command.Handler<BanFromWh
         whitelistDAO.delete(whitelist);
         command.hook().sendMessage("Der Spieler wurde erfolgreich gebannt!").queue();
 
+        pipeline.send(new PlayerUnwhitelistedEvent(command.discordId()));
 
         Player minecraftPlayer = server.getPlayer(UUID.fromString(whitelist.getPlayer().getMinecraftId()));
         if (minecraftPlayer != null) {

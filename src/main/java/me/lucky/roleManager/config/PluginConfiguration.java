@@ -13,6 +13,9 @@ public final class PluginConfiguration {
 
         @Comment("Die Aktivität welche auf den Server angezeigt werden soll")
         public String Activity = "Schaut auf Joy";
+
+        @Comment("Die Rollen-ID")
+        public long MinecraftRoleId = -1L;
     }
 
     public DiscordConfiguration Discord = new DiscordConfiguration();
