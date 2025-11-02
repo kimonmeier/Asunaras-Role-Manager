@@ -2,6 +2,7 @@ package me.lucky.roleManager.interactions;
 
 import com.google.inject.Inject;
 import me.lucky.roleManager.RoleManager;
+import me.lucky.roleManager.config.PluginConfiguration;
 import me.lucky.roleManager.data.dao.WhitelistDAO;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -23,9 +24,12 @@ public class GuildMemberLeave extends ListenerAdapter {
     @Inject
     private Server server;
 
+    @Inject
+    private PluginConfiguration pluginConfiguration;
+
     @Override
     public void onGuildMemberRemove(@NotNull GuildMemberRemoveEvent event) {
-        if (!BigInteger.valueOf(event.getGuild().getIdLong()).equals(RoleManager.GUILD_ID)) {
+        if (!BigInteger.valueOf(event.getGuild().getIdLong()).equals(pluginConfiguration.Discord.GuildId)) {
             return;
         }
 

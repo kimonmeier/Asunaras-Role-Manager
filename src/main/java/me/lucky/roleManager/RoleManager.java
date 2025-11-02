@@ -15,8 +15,6 @@ import java.math.BigInteger;
 import java.util.logging.Level;
 
 public final class RoleManager extends JavaPlugin {
-    public static final BigInteger GUILD_ID = new BigInteger("1334977015291576413");
-
     @Getter
     private static RoleManager instance;
 

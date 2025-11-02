@@ -19,7 +19,7 @@ public class PlayerUnwhitelistedEventHandler implements Command.Handler<PlayerUn
 
     @Override
     public Voidy handle(PlayerUnwhitelistedEvent event) {
-        Guild guild = discordBot.getJda().getGuildById(RoleManager.GUILD_ID.longValue());
+        Guild guild = discordBot.getJda().getGuildById(config.Discord.GuildId);
 
         assert guild != null;
         Member member = guild.getMemberById(event.discordId());

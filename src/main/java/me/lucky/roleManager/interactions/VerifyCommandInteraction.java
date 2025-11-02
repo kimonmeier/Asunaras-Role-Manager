@@ -3,6 +3,7 @@ package me.lucky.roleManager.interactions;
 import an.awesome.pipelinr.Pipeline;
 import com.google.inject.Inject;
 import me.lucky.roleManager.RoleManager;
+import me.lucky.roleManager.config.PluginConfiguration;
 import me.lucky.roleManager.events.discord.VerifyUser.VerifyUserCommand;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -14,6 +15,9 @@ public class VerifyCommandInteraction extends ListenerAdapter {
     @Inject
     private Pipeline pipeline;
 
+    @Inject
+    private PluginConfiguration pluginConfiguration;
+
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         if (!event.getName().equals(Commands.VERIFY.getCommandName())) {
@@ -23,7 +27,7 @@ public class VerifyCommandInteraction extends ListenerAdapter {
         event.deferReply(true).queue();
 
 
-        if (!BigInteger.valueOf(event.getGuild().getIdLong()).equals(RoleManager.GUILD_ID)) {
+        if (!BigInteger.valueOf(event.getGuild().getIdLong()).equals(pluginConfiguration.Discord.GuildId)) {
             event.getHook().sendMessage("Der Command darf nur auf dem offiziellen Asunaras Discord benutzt werden!").queue();
             return;
         }

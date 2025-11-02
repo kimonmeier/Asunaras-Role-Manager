@@ -91,7 +91,7 @@ public class JoinListener implements Listener {
     }
 
     private void syncPrimaryGroup(UUID playerId, Whitelist whitelist) {
-        Member member = discordBot.getJda().getGuildById(RoleManager.GUILD_ID.longValue()).getMemberById(whitelist.getDiscordId());
+        Member member = discordBot.getJda().getGuildById(pluginConfiguration.Discord.GuildId).getMemberById(whitelist.getDiscordId());
 
 
         String primaryGroup = member.getRoles().stream().map(currentRole -> pluginConfiguration.Minecraft.Rollen.getOrDefault(currentRole.getIdLong(), null)).filter(Objects::nonNull).findFirst().orElse(null);

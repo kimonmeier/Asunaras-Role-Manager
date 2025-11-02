@@ -71,7 +71,7 @@ public class DiscordBot extends ListenerAdapter {
             throw new LoginException("Discord token is invalid, so the plugin will not work!");
         }
 
-        this.jda.getGuildById(RoleManager.GUILD_ID.longValue()).loadMembers();
+        this.jda.getGuildById(this.config.Discord.GuildId).loadMembers();
 
         // Listener
         this.jda.addEventListener(injector.getInstance(VerifyCommandInteraction.class));

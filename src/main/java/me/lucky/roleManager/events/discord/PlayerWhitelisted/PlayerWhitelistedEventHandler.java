@@ -29,7 +29,7 @@ public class PlayerWhitelistedEventHandler implements Command.Handler<PlayerWhit
 
     @Override
     public Voidy handle(PlayerWhitelistedEvent event) {
-        Guild guild = discordBot.getJda().getGuildById(RoleManager.GUILD_ID.longValue());
+        Guild guild = discordBot.getJda().getGuildById(configuration.Discord.GuildId);
 
         assert guild != null;
         Member member = guild.getMemberById(event.discordId());

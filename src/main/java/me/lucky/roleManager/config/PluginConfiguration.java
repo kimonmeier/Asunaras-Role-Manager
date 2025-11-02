@@ -11,6 +11,9 @@ public final class PluginConfiguration {
 
     @Configuration
     public static class DiscordConfiguration {
+        @Comment("Die Guild Id")
+        public long GuildId = -1L;
+
         @Comment("Der Discord-Bot Token")
         public String Token = "<<REPLACE>>";
 
